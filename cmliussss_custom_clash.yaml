@@ -152,17 +152,27 @@ sniffer:
 # 订阅转换器会将上游订阅节点填充到这里
 proxies: []
 
+proxy-providers:
+  订阅节点:
+    type: http
+    url: "https://example.com/your-subscription"
+    path: ./proxy-providers/subscribe.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: "https://www.gstatic.com/generate_204"
+      interval: 300
+
 proxy-groups:
   - name: "🚀 节点选择"
     type: select
     proxies:
       - "⚡ 自动选择"
-      - AU2222-rsh31mue8j
 
   - name: "⚡ 自动选择"
     type: url-test
-    proxies:
-      - AU2222-rsh31mue8j
+    use:
+      - "订阅节点"
     url: "https://www.gstatic.com/generate_204"
     interval: 300
     lazy: false
